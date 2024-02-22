@@ -9,7 +9,11 @@ from selenium.webdriver.common.by import By
 # он будет иметь доступ ко всем атрибутам и методам BasePage
 class MainPage(BasePage):
 
-    # функция нажатия ссылки логина (переход на страницу логина)
+    # метод проверки наличия ссылки, которая ведет на форму логина
+    def should_be_login_link(self):
+        self.browser.find_element(By.CSS_SELECTOR, "#login_link_invalid")
+
+    # метод нажатия ссылки логина (переход на страницу логина)
     def go_to_login_page(self):
         login_link = self.browser.find_element(By.CSS_SELECTOR, "#login_link")
         login_link.click()
