@@ -6,15 +6,18 @@
 import math
 import time
 
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class BasePage():
     # конструктор (метод, который вызывается, когда мы создаем объект) с неявным ожиданием в 10 сек
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
-        self.browser.implicitly_wait(timeout)
+        #self.browser.implicitly_wait(timeout)
 
     # метод "open" должен открывать нужную страницу в браузере, используя метод get()
     def open(self):
@@ -26,6 +29,27 @@ class BasePage():
             self.browser.find_element(how, what)
         except (NoSuchElementException):
             return False
+        return True
+
+    # метод, который проверяет, что элемент не появляется на странице в течение заданного времени:
+    def is_not_element_present(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return True
+
+        return False
+
+    # если мы хотим проверить, что какой-то элемент исчезает,
+    # то следует воспользоваться явным ожиданием вместе с функцией until_not,
+    # в зависимости от того, какой результат мы ожидаем
+    def is_disappeared(self, how, what, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException). \
+                until_not(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+
         return True
 
     # подсчет значения выражения и ввод ответа
@@ -42,11 +66,3 @@ class BasePage():
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
-
-
-def tratata (self, how, what):
-    try:
-        self.browser.find_element
-    except (NoSuchElementException):
-        return False
-    return True

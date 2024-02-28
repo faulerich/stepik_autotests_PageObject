@@ -32,4 +32,14 @@ class ProductPage(BasePage):
         costaddedname = self.browser.find_element(*ProductPageLocators.COST_ADDED_NAME).text
         assert bookcost == costaddedname, "The cost of added product is not match"
 
+    # не должно появляться сообщения об успешном добавлении товара
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    # сообщение об успешном добавлении товара должно исчезать
+    def should_disappear(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
+            "Success message is not disappeared, but it should"
+
 
