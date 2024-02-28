@@ -10,6 +10,8 @@ link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
 # проверяем, что при добавлении в корзину нет сообщения об успешном добавлении
 # тест должен падать, т.к. это не так
+
+@pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -18,6 +20,7 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
 
 # проверяем, что при открытии страницы нет сообщения об успешном добавлении в корзину
 # тест должен проходить успешно, т.к. сообщения действительно нет
+
 def test_guest_cant_see_success_message(browser):
     page = ProductPage(browser, link)
     page.open()
@@ -25,6 +28,8 @@ def test_guest_cant_see_success_message(browser):
 
 # проверяем, что сообщение об успешном добавлении товара в корзину исчезает после добавления товара
 # тест должен падать, т.к. оно не исчезает
+
+@pytest.mark.xfail
 def test_message_disappeared_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
