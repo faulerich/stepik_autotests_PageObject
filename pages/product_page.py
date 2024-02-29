@@ -3,11 +3,15 @@ from gettext import gettext
 # Page Object для страницы товара
 
 from .base_page import BasePage
-from .locators import ProductPageLocators
+from .locators import ProductPageLocators, LoginPageLocators
 
 class ProductPage(BasePage):
 
     # метод добавления товара в корзину
+    def __init__(self, browser, url, timeout=10):
+        super().__init__(browser, url, timeout)
+        self.current_url = None
+
     def add_to_cart(self):
         add_to_cart_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BTN)
         add_to_cart_button.click()

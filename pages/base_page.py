@@ -6,10 +6,13 @@
 import math
 import time
 
+from .locators import BasePageLocators
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+
 
 
 class BasePage():
@@ -66,3 +69,13 @@ class BasePage():
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    # метод проверки наличия ссылки, которая ведет на форму логина
+    def should_be_login_link(self):
+        # * указывает на то, что передаем пару (тип локатора и его значение) и ее надо распаковать
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not presented"
+
+    # метод нажатия ссылки логина (переход на страницу логина)
+    def go_to_login_page(self):
+        link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        link.click()
