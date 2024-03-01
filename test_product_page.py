@@ -4,6 +4,7 @@ import pytest
 # Задание: добавление в корзину со страницы товара (4.3.2)
 
 from pages.base_page import BasePage
+from pages.basket_page import BasketPage
 from pages.main_page import MainPage
 from pages.product_page import ProductPage
 from pages.login_page import LoginPage
@@ -63,3 +64,13 @@ class TestUserAddToBasketFromProductPage():
         page.open()
         page.register_new_user(email, password)
         page.should_be_authorized_user()
+
+    # проверяем, что нет товаров в корзине, открытой из страницы товара
+    def test_guest_cant_see_product_in_basket_opened_from_product_page(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+        page = ProductPage(browser, link)
+        page.open()
+        page.go_to_cart_page()
+        basket_page = BasketPage(browser, browser.current_url)
+        basket_page.should_not_be_products()
+        basket_page.should_be_message_of_empty_basket()

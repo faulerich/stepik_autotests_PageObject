@@ -4,7 +4,7 @@
 # в ней мы опишем вспомогательные методы для работы с драйвером.
 
 import math
-from .locators import BasePageLocators
+from .locators import BasePageLocators, MainPageLocators
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.support.wait import WebDriverWait
@@ -79,4 +79,9 @@ class BasePage():
     def should_be_authorized_user(self):
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
                                                                      " probably unauthorised user"
+
+        # метод перехода в корзину
+    def go_to_cart_page(self):
+        btn = self.browser.find_element(*MainPageLocators.BASKET_BTN)
+        btn.click()
 
